@@ -12,10 +12,6 @@ export default defineConfig({
 		exclude: ['@vinejs/vine']
 	},
 
-	ssr: {
-		noExternal: ['svoast']
-	},
-
 	build: {
 		rollupOptions: {
 			external: ['@vinejs/vine']
