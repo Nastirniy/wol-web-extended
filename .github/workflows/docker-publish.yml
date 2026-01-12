@@ -72,6 +72,5 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           repository: ${{ env.IMAGE_NAME }}
-          #short-description: ${{ github.event.repository.description }}
-          short-description: 'Web-based Wake-on-LAN management with real-time device monitoring.'
+          short-description: "Web-based Wake-on-LAN management with real-time device monitoring."
           readme-filepath: ./README.md
