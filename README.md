@@ -4,7 +4,9 @@ Web-based Wake-on-LAN management with real-time device monitoring, ARP discovery
 
 Custom Go REST API with SQLite database and SvelteKit frontend.
 
-![](https://i.imgur.com/2pGGr1Z.png)
+![](https://prnt.sc/LckCVFJrj6oH)
+![](https://prnt.sc/pJm6lgBVTxX-)
+![](https://prnt.sc/CSP7CIyFUMZO)
 
 ## Quick Start
 
@@ -122,7 +124,7 @@ sudo setcap cap_net_raw,cap_net_admin+ep apps/server/wol-server
 
 ## Credits & Acknowledgments
 
-This project is an extended fork of the excellent [wol-web](https://github.com/HuakunShen/wol-web) by [Huakun Shen](https://github.com/HuakunShen). It adds multi-user support, localized error handling, and enhanced network interface management. (i need it, so i add it)
+This project is an extended fork of the excellent [wol-web](https://github.com/HuakunShen/wol-web) by [Huakun Shen](https://github.com/HuakunShen). It adds multi-user support, localized error handling, and enhanced network interface management. (i need it, so i added it)
 
 Special thanks to the authors of the core libraries that make this possible:
 - [j-keck/arping](https://github.com/j-keck/arping) - For the powerful ARP ping functionality.

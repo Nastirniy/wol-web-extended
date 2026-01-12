@@ -24,7 +24,7 @@
 	import { t } from '$lib/stores/locale';
 	import { cn } from '$lib/utils';
 	import { isValidMACAddress, normalizeMACAddress } from '$lib/utils/mac';
-	import { validateBroadcastAddress, validateIPv4 } from '$lib/utils/validation';
+	import { validateBroadcastAddress, validateHostName, validateIPv4 } from '$lib/utils/validation';
 	import AdvancedSettings from './AdvancedSettings.svelte';
 	import HostCardEditSkeleton from './HostCardEditSkeleton.svelte';
 
