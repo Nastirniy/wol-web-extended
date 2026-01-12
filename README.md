@@ -1,139 +1,124 @@
 # wol-web
 
-> A web app hosted locally for wakeonlan
->
-> This is a rewrite with sveltekit + PocketBase to replace the old version I wrote a few years ago
->
-> In the new rewrite, instead of writing an entire rest API server and manage database with gorm, I use PocketBase as backend and database. Its golang extension feature allows me to add the wakeonlan feature easily. The most complicated part, Auth, is also fully handled by PocketBase, saving lots of time. PocketBase also has a built-in database management UI, making user creation/management much easier.
+Web-based Wake-on-LAN management with real-time device monitoring, ARP discovery, and per-host network interface selection.
+
+Custom Go REST API with SQLite database and SvelteKit frontend.
 
 ![](https://i.imgur.com/2pGGr1Z.png)
 
-## Deployment (Docker)
+## Quick Start
 
-Deployment with docker is super simple.
-
-Docker image [`huakunshen/wol`](https://hub.docker.com/repository/docker/huakunshen/wol/) is available on docker hub.
-
-Both `linux/amd64` and `linux/arm64` are supported.
-
-> [!IMPORTANT]
-> 1. The container must be in the same network as the target hosts
-> 2. The container must be started with `--network=host`
-> 3. Mac doesn't support `--network=host` with docker. On Mac you have to run server with go directly. It's recommended to use linux.
-
-### Step 1: Start Server
-
-Here is a full command to start the server with a superuser initialized
+### Docker Compose (Recommended)
 
 ```bash
-docker run --rm \
-  --network=host \
-  -e PORT=8090 \
-  -e SUPERUSER_EMAIL=<root@example.com> \
-  -e SUPERUSER_PASSWORD=<your password> \
-  -v ./pb_data:/app/pb_data \
-  huakunshen/wol:latest
+docker compose up -d
 ```
 
-- In this example I used `--rm` to clean up the container after it's closed for demo purpose
-- In production, you should replace `--rm` with `-d` to run it in detach mode
+Access at `http://localhost:8090`
 
-The 2 environment variables and volume are optional but recommended.
-
-- The volume is for data persistence, so you don't lose your data after container is destroyed.
-  - Instead of using a local directory, it's better to create a volume and bind to it.
-- `PORT` environment variable is used to specify the port the server listens on
-  - Default is 8090
-  - Since this app has to be run in host network, you can't set port mapping with `-p` option; thus the `PORT` environment variable can be used to change the port.
-- The 2 environment variables are used to create an initial superuser in database
-  - This project uses pocketbase as its backend and database, there is no user register feature as we shouldn't allow random person to register and send magic packets in your network. The only way to create user is log into pocketbase admin console with a superuser account and manually create user in the `users` collection/table.
-  - When both `SUPERUSER_EMAIL` and `SUPERUSER_PASSWORD` are set, the server will create this superuser the first time it starts and you could login directly.
-  - If you didn't set initial superuser credentials, you could also create a superuser
-    - A long URL should be printed to console, open it in browser. The token in the URL allows you to create a superuser
-    ```
-    (!) Launch the URL below in the browser if it hasn't been open already to create your first superuser account:
-    http://0.0.0.0:8090/_/#/pbinstal/eyJhbGciOiJIUzI1NiIs...
-    ```
-    - If you ran `docker run -d` in detach mode, run `docker logs <container name>` to find the long URL for superuser creation.
-
-### Step 2: Create a Regular User
-
-The superuser we discussed previously is like a database admin, you need to create a regular user to login to the website.
-
-1. Go to [`http://localhost:8090/_/`](http://localhost:8090/_/) (or the url of your environment), login with superuser credentials
-2. Go to `users` collection, create a user, remember your email and password
-
-### Step 3: Login to WOL Web
-
-You can go to `http://localhost:8090/auth` and login with your regular user credentials.
-
-Create a host then you can wake up your computer from browser.
-
-## Deployment (docker compose)
-
-Docker compose makes creating and destroying wol container easier. 
-
-A [compose.yml](./compose.yml) is provided in this repo.
-
-```yaml
-services:
-  wol:
-    image: "huakunshen/wol"
-    container_name: wol-web
-    network_mode: host
-    volumes:
-      - wol_data:/app/pb_data
-    environment:
-      - SUPERUSER_EMAIL=root@example.com
-      - SUPERUSER_PASSWORD=changeme
-      - PORT=8090
-volumes:
-  wol_data:
-```
-
+**View logs:**
 ```bash
-docker compose up
-docker compose down
+docker logs -f wol-web
 ```
 
-## Develop
+### Configuration
 
-**Prerequisite:**
-1. Bun
-2. Golang
+#### Environment Variables
 
-bun workspace is used to manage this monorepo, `dev` script will start frontend and backend together.
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `LISTEN_ADDRESS` | Bind address (e.g., `:8090`, `127.0.0.1:3000`) | `:8090` |
+| `URL_PREFIX` | Path for reverse proxy (e.g., `/wol`) | `""` |
+| `DEFAULT_NETWORK_INTERFACE` | Global interface(s) - **supports comma-separated** | `""` |
+| `ENABLE_PER_HOST_INTERFACES`| Allow per-host interface selection | `false` |
+| `BEHIND_PROXY` | Enable secure cookies for HTTPS proxy | `false` |
+| `LOG_LEVEL` | Log level (`debug`, `info`, `warning`, `error`) | `info` |
+| `LOG_OUTPUT_MODE` | Log output (`stdout`, `file`, `both`) | `stdout` |
 
+#### config.json (auto-created on first run)
+
+```json
+{
+  "listen_address": ":8090",
+  "url_prefix": "",
+  "default_network_interface": "",
+  "enable_per_host_interfaces": false,
+  "ping_timeout_seconds": 5,
+  "auth_expire_hours": 4,
+  "use_auth": true,
+  "readonly_mode": false,
+  "behind_proxy": false,
+  "health_check_enabled": true,
+  "log_level": "info",
+  "log_output_mode": "stdout"
+}
+```
+
+See [CONFIG.md](./CONFIG.md) for all options.
+
+---
+
+## Features
+
+- **Wake-on-LAN:** Send magic packets to wake devices
+- **Device Monitoring:** Real-time status (15s intervals) via ARP ping
+- **Static IP Support:** Directly ping specific IPs with optional fallback to ARP discovery
+- **ARP Discovery:** Scan network and detect devices (Linux only)
+- **Network Interfaces:** Per-host or global interface selection with **multiple interface support** for automatic fallback (Linux only)
+- **User Management:** Multi-user with superuser roles
+- **API:** RESTful endpoints for automation
+- **Responsive UI:** Built with SvelteKit and shadcn/ui
+
+---
+
+## Platform Support
+
+### Linux (Full functionality)
+- ARP discovery and scanning
+- Per-host network interface selection
+- Real-time device status monitoring
+
+### Windows/macOS (Limited)
+- Basic Wake-on-LAN only
+- No ARP discovery/pings
+- **Note:** Docker Desktop (Mac/Windows) does not support `--network=host`. Run binary directly for WoL functionality.
+
+---
+
+## Installation (Local System)
+
+### Prerequisites
+- Bun
+- Go 1.23+
+
+### Steps
 ```bash
+# 1. Clone and install
+git clone https://github.com/yourusername/wol-web-extended.git
+cd wol-web-extended
 bun install
-bun run dev # start both sveltekit dev server and golang pocketbase server
+
+# 2. Build and Run
+bun run build
+cd apps/server
+./wol-server
 ```
 
-### Server
+Access at `http://localhost:8090/auth` to create the first superuser.
 
-The golang server is in `apps/server`. It's a golang pocketbase extension with some custom routes.
-
+### Optional: Grant ARP capabilities (Linux)
 ```bash
-air # start development
-go run main.go serve # start the server without hot reload
+sudo setcap cap_net_raw,cap_net_admin+ep apps/server/wol-server
 ```
 
-#### Migrations
+---
 
-When table is modified, run `go run . migrate collections` to generate a migration `.go` file that will be auto loaded.
+## Documentation
+- [RUNNING.md](./RUNNING.md) - Deployment and configuration
+- [CONFIG.md](./CONFIG.md) - Configuration reference
+- [LOGGING.md](./LOGGING.md) - Logging guide
 
+---
 
-### Frontend
-
-The frontend is in `apps/web`, written with sveltekit + `@sveltejs/adapter-static`.
-
-In development, use `http://localhost:5173`. 
-
-Running `bun run build` will generate a `apps/web/build` directory, 
-and will be automatically copied to `apps/server/pb_public` ready to be served directly by the golang server as static assets.
-
-In production the website is accesssible at `http://localhost:8090/`.
-
-### Docker
-
-`make buildx` automatically builds docker image for `linux/amd64` and `linux/arm64` and push to dockerhub.
+## License
+MIT

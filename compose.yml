@@ -1,13 +1,62 @@
 services:
   wol:
-    image: "huakunshen/wol"
+    # Local development: Build from current directory
+    # For production/Docker Hub: Replace 'build' and 'image' with the official image
+    # e.g., image: "your-username/wol-web-extended:latest"
+    build: .
+    image: "wol-web-extended:local"
     container_name: wol-web
+    restart: unless-stopped
+
+    # Required for WoL broadcast packets
     network_mode: host
+
+    # Required capabilities:
+    # - NET_RAW: ARP ping functionality (MAC address resolution)
+    # - NET_ADMIN: ARP cache flush (clearing stale entries)
+    cap_add:
+      - NET_RAW
+      - NET_ADMIN
+
     volumes:
-      - wol_data:/app/pb_data
+      # Database and config
+      - wol_data:/app/data
+      # Optional: Mount logs directory for persistent log files
+      # Uncomment if using LOG_OUTPUT_MODE=file or LOG_OUTPUT_MODE=both
+      # - wol_logs:/app/logs
+
     environment:
-      - SUPERUSER_EMAIL=root@example.com
-      - SUPERUSER_PASSWORD=changeme
-      - PORT=8090
+      # Server Configuration
+      - LISTEN_ADDRESS=:8090
+      # - URL_PREFIX=/wol
+      # - DEFAULT_NETWORK_INTERFACE=eth0,eth1  # Supports multiple interfaces (comma-separated)
+      # - ENABLE_PER_HOST_INTERFACES=true
+      # - PING_TIMEOUT_SECONDS=5
+      # - AUTH_EXPIRE_HOURS=4
+      # - USE_AUTH=true
+      # - READONLY_MODE=false
+      # - BEHIND_PROXY=true  # Set true when behind reverse proxy (enables secure cookies)
+      # - HEALTH_CHECK_ENABLED=true
+
+      # Logging Configuration
+      # For Docker, recommended: LOG_OUTPUT_MODE=stdout (Docker captures logs)
+      # For persistent logs: LOG_OUTPUT_MODE=file and uncomment wol_logs volume above
+      - LOG_LEVEL=info  # debug, info, warning, error
+      - LOG_OUTPUT_MODE=stdout  # stdout, file, both
+      # - LOG_DIR=/app/logs  # Only used when LOG_OUTPUT_MODE=file or both
+      # - LOG_MAX_SIZE_MB=100  # Max log file size before rotation
+      # - LOG_MAX_AGE_DAYS=30  # Days to keep old log files
+      # - LOG_ROTATION=true  # Enable automatic log rotation
+
+    # Optional: Docker log driver configuration (only applies when LOG_OUTPUT_MODE=stdout or both)
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
 volumes:
   wol_data:
+    driver: local
+  # wol_logs:
+  #   driver: local

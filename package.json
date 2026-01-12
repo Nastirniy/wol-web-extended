@@ -1,11 +1,17 @@
 {
-  "name": "wol-web",
+  "name": "wol-web-extended",
   "private": true,
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
+    "dev:backend": "cd apps/server && go run .",
+    "dev:frontend": "cd apps/web && bun run dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "test": "bun run test:backend && bun run test:frontend",
+    "test:backend": "cd apps/server && go test ./...",
+    "test:frontend": "cd apps/web && bun run test",
+    "clean": "rm -rf apps/web/build apps/server/static apps/server/wol.db"
   },
   "devDependencies": {
     "prettier": "^3.2.5",

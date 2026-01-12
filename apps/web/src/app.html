@@ -4,9 +4,73 @@
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script>
+			// Apply theme IMMEDIATELY before any rendering to prevent flash
+			(function () {
+				const stored = localStorage.getItem('theme');
+				const theme =
+					stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+				if (theme === 'dark') {
+					document.documentElement.classList.add('dark');
+				}
+			})();
+
+			// Track when the page started loading for minimum loader display time
+			window.__pageLoadStart = performance.now();
+		</script>
+		<style>
+			/* Initial loader - visible before any JS loads */
+			#initial-loader {
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: hsl(0 0% 100%); /* --background light */
+				z-index: 99999;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			/* Simple spinning ring - matches your theme */
+			.loader-ring {
+				width: 3rem;
+				height: 3rem;
+				border: 3px solid hsl(0 0% 96.1%); /* --muted light */
+				border-top-color: hsl(0 0% 9%); /* --primary light */
+				border-radius: 9999px;
+				animation: spin 0.8s linear infinite;
+			}
+
+			@keyframes spin {
+				to {
+					transform: rotate(360deg);
+				}
+			}
+
+			/* Dark mode - uses your actual dark theme colors */
+			.dark #initial-loader {
+				background: hsl(0 0% 3.9%); /* --background dark */
+			}
+			.dark .loader-ring {
+				border-color: hsl(0 0% 14.9%); /* --muted dark */
+				border-top-color: hsl(0 0% 98%); /* --primary dark */
+			}
+
+			/* Hide loader after app loads */
+			body.app-loaded #initial-loader {
+				display: none;
+			}
+		</style>
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">
+		<!-- Pure HTML/CSS loader - visible before JS loads -->
+		<div id="initial-loader">
+			<div class="loader-ring"></div>
+		</div>
+
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
 </html>

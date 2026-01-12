@@ -1,0 +1,50 @@
+[Unit]
+Description=Wake-on-LAN Web Server
+Documentation=https://github.com/Nastirniy/wol-web-extended
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=wol
+Group=wol
+WorkingDirectory=/opt/wol-web
+
+# Binary path with configuration
+ExecStart=/opt/wol-web/wol-server -config /etc/wol-web/config.json -db /var/lib/wol-web/wol.db
+
+# Restart policy
+Restart=on-failure
+RestartSec=5s
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/wol-web /var/log/wol-web
+
+# Linux capabilities for ARP ping and cache flushing
+AmbientCapabilities=CAP_NET_RAW CAP_NET_ADMIN
+CapabilityBoundingSet=CAP_NET_RAW CAP_NET_ADMIN
+
+# Environment variables for logging configuration
+# For systemd services, use file-based logging to prevent memory issues
+Environment="LOG_LEVEL=info"
+Environment="LOG_OUTPUT_MODE=file"
+Environment="LOG_DIR=/var/log/wol-web"
+Environment="LOG_MAX_SIZE_MB=50"
+Environment="LOG_MAX_AGE_DAYS=30"
+Environment="LOG_ROTATION=true"
+
+# Standard output/error (logs will go to both journald and files)
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=wol-web
+
+# Resource limits
+LimitNOFILE=65536
+LimitNPROC=512
+
+[Install]
+WantedBy=multi-user.target

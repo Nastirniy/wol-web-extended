@@ -1,54 +1,54 @@
-# Binaries for programs and plugins
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+bun.lockb
+
+# Build outputs
+build/
+dist/
+.svelte-kit/
+.turbo/
+out/
+.next/
+bin/
 *.exe
-*.exe~
 *.dll
 *.so
 *.dylib
 
-# Test binary, built with `go test -c`
-*.test
+# Server specific artifacts
+/apps/server/static/
+/apps/server/vendor/
 
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
-
-# Dependency directories (remove the comment below to include it)
-# vendor/
-
-node_modules/
-
-# Dependencies
-node_modules
-.pnp
-.pnp.js
-
-# Local env files
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# Testing
-coverage
-
-# Turbo
-.turbo
-
-# Vercel
-.vercel
-
-# Build Outputs
-.next/
-out/
-build
-dist
-
-
-# Debug
+# Debug and Logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+bun-debug.log*
+.vercel
 
-# Misc
+# Testing
+coverage/
+test-results/
+playwright-report/
+
+# OS/IDEs
 .DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+
+# Config/Secrets
+.env*
+config.json
+!config.example.json
 *.pem
+
+# Database
+*.db
+*.db-shm
+*.db-wal

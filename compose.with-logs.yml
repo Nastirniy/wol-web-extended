@@ -1,0 +1,69 @@
+# Docker Compose configuration with persistent file logging enabled
+# This example shows how to configure the application to write logs to files
+# that persist outside the container
+
+services:
+  wol:
+    # Local development: Build from current directory
+    # For production/Docker Hub: Replace 'build' and 'image' with the official image
+    # e.g., image: "your-username/wol-web-extended:latest"
+    build: .
+    image: "wol-web-extended:local"
+    container_name: wol-web
+    restart: unless-stopped
+    # Required for WoL broadcast packets
+    network_mode: host
+
+    # Required capabilities:
+    # - NET_RAW: ARP ping functionality (MAC address resolution)
+    # - NET_ADMIN: ARP cache flush (clearing stale entries)
+    cap_add:
+      - NET_RAW
+      - NET_ADMIN
+
+    volumes:
+      # Database and config
+      - wol_data:/app/data
+      # Persistent log files (accessible on host system)
+      - wol_logs:/app/logs
+
+    environment:
+      # Server Configuration
+      - LISTEN_ADDRESS=:8090
+      # - URL_PREFIX=/wol
+      # - DEFAULT_NETWORK_INTERFACE=eth0,eth1  # Supports multiple interfaces (comma-separated)
+      # - ENABLE_PER_HOST_INTERFACES=true
+      # - PING_TIMEOUT_SECONDS=5
+      # - AUTH_EXPIRE_HOURS=4
+      # - USE_AUTH=true
+      # - READONLY_MODE=false
+      # - BEHIND_PROXY=true  # Set true when behind reverse proxy (enables secure cookies)
+      # - HEALTH_CHECK_ENABLED=true
+
+      # Logging Configuration - File-based with rotation
+      - LOG_LEVEL=info  # debug, info, warning, error
+      - LOG_OUTPUT_MODE=file  # Writes logs to /app/logs (persisted in volume)
+      - LOG_DIR=/app/logs  # Directory mounted as volume
+      - LOG_MAX_SIZE_MB=50  # Rotate after 50MB
+      - LOG_MAX_AGE_DAYS=30  # Keep logs for 30 days
+      - LOG_ROTATION=true  # Enable automatic rotation
+
+volumes:
+  wol_data:
+    driver: local
+  wol_logs:
+    driver: local
+
+# To use this configuration:
+# 1. Copy this file: cp compose.with-logs.yml compose.yml
+#    OR
+# 2. Run with: docker compose -f compose.with-logs.yml up -d
+#
+# To view logs:
+# - Docker logs: docker logs -f wol-web
+# - Log files: docker compose exec wol ls -la /app/logs
+# - Read logs: docker compose exec wol tail -f /app/logs/wol-server-*.log
+#
+# To access log files on host:
+# - Find volume: docker volume inspect wol_logs
+# - Copy logs out: docker cp wol-web:/app/logs ./local-logs

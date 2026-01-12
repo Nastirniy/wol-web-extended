@@ -1,4 +1,39 @@
+# Build artifacts
 Makefile
 Dockerfile
 .dockerignore
 
+# Documentation
+*.md
+CLAUDE.md
+CONFIG.md
+RUNNING.md
+
+# Git and version control
+.git
+.gitignore
+.editorconfig
+
+# Development files
+apps/server/config.json
+apps/server/wol.db
+apps/server/*.exe
+apps/server/wol-server
+apps/server/wolweb
+apps/web/build
+
+# Dependencies
+node_modules
+.next
+.svelte-kit
+
+# Environment
+.env
+.env.*
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~

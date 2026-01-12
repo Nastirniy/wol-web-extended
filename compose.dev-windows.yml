@@ -1,0 +1,10 @@
+services:
+  wol:
+    # Use bridge mode for Windows/Mac development (Host mode only works on Linux)
+    # Note: Wake-on-LAN broadcast packets will NOT work in this mode.
+    # This is only for testing the Web UI and API.
+    network_mode: bridge
+    ports:
+      - "8090:8090"
+    environment:
+      - LISTEN_ADDRESS=:8090
