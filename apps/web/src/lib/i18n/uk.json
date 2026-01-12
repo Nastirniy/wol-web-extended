@@ -342,13 +342,6 @@
 			"createUserPasswordMismatch": "Паролі не збігаються",
 			"cannotRemoveOwnSuperuser": "Не можна видалити свій власний статус суперкористувача"
 		},
-		"validation": {
-			"invalidMac": "Недійсний формат MAC-адреси. Використовуйте формат, наприклад AA:BB:CC:DD:EE:FF або AA-BB-CC-DD-EE-FF",
-			"invalidBroadcast": "Недійсна широкомовна адреса",
-			"invalidIpv4": "Недійсний формат IPv4-адреси. Використовуйте формат, наприклад 192.168.1.100",
-			"required": "Це поле обов'язкове",
-			"passwordMinLength": "Пароль повинен містити щонайменше 8 символів"
-		},
 		"error": {
 			"generic": "Сталася помилка",
 			"unauthorizedTitle": "Несанкціонований доступ",
@@ -365,6 +358,7 @@
 				"ERR_INVALID_IP": "Недійсна IP-адреса",
 				"ERR_INVALID_BROADCAST": "Недійсна широкомовна адреса",
 				"ERR_INVALID_INTERFACE": "Недійсний мережевий інтерфейс",
+				"ERR_INVALID_NAME": "Назва містить неприпустимі символи",
 				"ERR_NAME_TOO_LONG": "Назва занадто довга (максимум 64 символи)",
 				"ERR_MISSING_FIELD": "Відсутнє обов'язкове поле",
 				"ERR_FORBIDDEN": "Операція заборонена",

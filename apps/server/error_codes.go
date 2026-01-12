@@ -27,6 +27,7 @@ const (
 	ErrCodeInvalidIP         = "ERR_INVALID_IP"
 	ErrCodeInvalidBroadcast  = "ERR_INVALID_BROADCAST"
 	ErrCodeInvalidInterface  = "ERR_INVALID_INTERFACE"
+	ErrCodeInvalidName       = "ERR_INVALID_NAME"
 	ErrCodeNameTooLong       = "ERR_NAME_TOO_LONG"
 	ErrCodeDescriptionTooLong = "ERR_DESCRIPTION_TOO_LONG"
 

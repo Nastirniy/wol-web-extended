@@ -200,7 +200,7 @@ func sanitizeHostName(name string) error {
 	// Allow unicode letters/numbers, hyphens, dots, underscores, and spaces
 	nameRegex := regexp.MustCompile(`^[\p{L}\p{N}\-\._\s]+$`)
 	if !nameRegex.MatchString(name) {
-		return &ValidationError{Code: ErrCodeInvalidInput, Message: "host name contains invalid characters"}
+		return &ValidationError{Code: ErrCodeInvalidName, Message: "host name contains invalid characters"}
 	}
 
 	return nil

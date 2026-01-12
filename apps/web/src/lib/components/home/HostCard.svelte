@@ -314,29 +314,40 @@
 	}
 
 	async function saveEdit() {
+		// Trim name
+		const trimmedName = editData.name.trim();
+
+		// Validate Host Name
+		const nameValidation = validateHostName(trimmedName);
+		if (!nameValidation.valid) {
+			const errorCode = nameValidation.error as keyof typeof $t.messages.error.codes;
+			toast.error($t.messages.error.codes[errorCode] || $t.messages.error.generic, { closable: true });
+			return;
+		}
+
 		// Validate MAC address
 		if (!isValidMACAddress(editData.mac)) {
-			toast.error($t.messages.validation.invalidMac, { closable: true });
+			toast.error($t.messages.error.codes.ERR_INVALID_MAC, { closable: true });
 			return;
 		}
 
 		// Validate broadcast address format
 		const broadcastValidation = validateBroadcastAddress(editData.broadcast);
 		if (!broadcastValidation.valid) {
-			toast.error($t.messages.validation.invalidBroadcast, { closable: true });
+			toast.error($t.messages.error.codes.ERR_INVALID_BROADCAST, { closable: true });
 			return;
 		}
 
 		// Validate static IP if provided
 		if (editData.static_ip && !validateIPv4(editData.static_ip)) {
-			toast.error($t.messages.validation.invalidIpv4, { closable: true });
+			toast.error($t.messages.error.codes.ERR_INVALID_IP, { closable: true });
 			return;
 		}
 
 		try {
 			const updatedHost: Host = {
 				...host,
-				name: editData.name,
+				name: trimmedName,
 				mac: normalizeMACAddress(editData.mac),
 				broadcast: editData.broadcast,
 				static_ip: editData.static_ip || undefined,
@@ -356,9 +367,7 @@
 			// Ping the host immediately after successful update
 			pingHost();
 		} catch (error: any) {
-			if (error.message !== 'HANDLED') {
-				toast.error($t.messages.host.updateError, { closable: true });
-			}
+			// Error is handled in hostsStore.updateHost
 		}
 	}
 </script>

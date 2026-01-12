@@ -342,13 +342,6 @@
 			"createUserPasswordMismatch": "Passwords do not match",
 			"cannotRemoveOwnSuperuser": "Cannot remove your own superuser status"
 		},
-		"validation": {
-			"invalidMac": "Invalid MAC address format. Use format like AA:BB:CC:DD:EE:FF or AA-BB-CC-DD-EE-FF",
-			"invalidBroadcast": "Invalid broadcast address",
-			"invalidIpv4": "Invalid IPv4 address format. Use format like 192.168.1.100",
-			"required": "This field is required",
-			"passwordMinLength": "Password must be at least 8 characters"
-		},
 		"error": {
 			"generic": "An error occurred",
 			"unauthorizedTitle": "Unauthorized",
@@ -365,6 +358,7 @@
 				"ERR_INVALID_IP": "Invalid IP address",
 				"ERR_INVALID_BROADCAST": "Invalid broadcast address",
 				"ERR_INVALID_INTERFACE": "Invalid network interface",
+				"ERR_INVALID_NAME": "Host name contains invalid characters",
 				"ERR_NAME_TOO_LONG": "Name is too long (maximum 64 characters)",
 				"ERR_MISSING_FIELD": "Required field is missing",
 				"ERR_FORBIDDEN": "Operation not allowed",

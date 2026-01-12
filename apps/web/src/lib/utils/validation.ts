@@ -68,3 +68,36 @@ export function validateIPv4(ip: string, allowEmpty: boolean = true): boolean {
 
 	return true;
 }
+
+/**
+ * Validates a host name to ensure it only contains allowed characters.
+ * Returns error codes that match localization keys.
+ * @param name - The host name to validate
+ * @returns Validation result
+ */
+export function validateHostName(name: string): ValidationResult {
+	const trimmed = name.trim();
+	if (!trimmed) {
+		return { valid: false, error: 'ERR_MISSING_FIELD' };
+	}
+
+	if (trimmed.length > 64) {
+		return { valid: false, error: 'ERR_NAME_TOO_LONG' };
+	}
+
+	// Allow unicode letters/numbers, hyphens, dots, underscores, and spaces
+	try {
+		const nameRegex = /^[\p{L}\p{N}\-._\s]+$/u;
+		if (!nameRegex.test(trimmed)) {
+			return { valid: false, error: 'ERR_INVALID_NAME' };
+		}
+	} catch (e) {
+		// Fallback for older environments
+		const fallbackRegex = /^[a-zA-Z0-9\u00C0-\u017F\u0400-\u04FF\-\._\s]+$/;
+		if (!fallbackRegex.test(trimmed)) {
+			return { valid: false, error: 'ERR_INVALID_NAME' };
+		}
+	}
+
+	return { valid: true };
+}

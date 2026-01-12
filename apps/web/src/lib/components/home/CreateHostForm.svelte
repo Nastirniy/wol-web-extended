@@ -141,22 +141,30 @@
 			use_as_fallback: formData.use_as_fallback
 		};
 
+		// Validate Host Name
+		const nameValidation = validateHostName(trimmedData.name);
+		if (!nameValidation.valid) {
+			const errorCode = nameValidation.error as keyof typeof $t.messages.error.codes;
+			toast.error($t.messages.error.codes[errorCode] || $t.messages.error.generic, { closable: true });
+			return;
+		}
+
 		// Validate MAC address format
 		if (!isValidMACAddress(trimmedData.mac)) {
-			toast.error($t.messages.validation.invalidMac, { closable: true });
+			toast.error($t.messages.error.codes.ERR_INVALID_MAC, { closable: true });
 			return;
 		}
 
 		// Validate broadcast address format
 		const broadcastValidation = validateBroadcastAddress(trimmedData.broadcast);
 		if (!broadcastValidation.valid) {
-			toast.error($t.messages.validation.invalidBroadcast, { closable: true });
+			toast.error($t.messages.error.codes.ERR_INVALID_BROADCAST, { closable: true });
 			return;
 		}
 
 		// Validate static IP if provided
 		if (trimmedData.static_ip && !validateIPv4(trimmedData.static_ip)) {
-			toast.error($t.messages.validation.invalidIpv4, { closable: true });
+			toast.error($t.messages.error.codes.ERR_INVALID_IP, { closable: true });
 			return;
 		}
 
