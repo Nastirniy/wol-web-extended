@@ -28,6 +28,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Get version from code
+        id: get_version
+        run: |
+          VERSION=$(grep -oP 'const Version = "\K[^"]+' apps/server/version.go)
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Building version: $VERSION"
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -53,6 +60,9 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
             type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=${{ steps.get_version.outputs.VERSION }}
+          labels: |
+            org.opencontainers.image.version=${{ steps.get_version.outputs.VERSION }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -66,6 +76,8 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Update Docker Hub description
+        # NOTE: This step REQUIRES the Docker Hub PASSWORD in DOCKERHUB_TOKEN secret.
+        # Personal Access Tokens (PAT) do not have permissions to update descriptions.
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: peter-evans/dockerhub-description@v4
         with:
