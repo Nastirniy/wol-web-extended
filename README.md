@@ -4,9 +4,9 @@ Web-based Wake-on-LAN management with real-time device monitoring, ARP discovery
 
 Custom Go REST API with SQLite database and SvelteKit frontend.
 
-![](https://prnt.sc/LckCVFJrj6oH)
-![](https://prnt.sc/pJm6lgBVTxX-)
-![](https://prnt.sc/CSP7CIyFUMZO)
+![](https://img.lightshot.app/E-rVU1n2RmicG0CciDg6Ng.png)
+![](https://img.lightshot.app/sYXDgl1bQT2KQz1ui9NpRg.png)
+![](https://img.lightshot.app/djNNkWLSQ5mPFG9YE1SBxQ.png)
 
 ## Quick Start
 
