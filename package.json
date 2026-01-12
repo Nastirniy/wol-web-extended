@@ -11,12 +11,13 @@
     "test": "bun run test:backend && bun run test:frontend",
     "test:backend": "cd apps/server && go test ./...",
     "test:frontend": "cd apps/web && bun run test",
+    "prepare": "turbo prepare",
     "clean": "rm -rf apps/web/build apps/server/static apps/server/wol.db"
   },
   "devDependencies": {
-    "prettier": "^3.2.5",
+    "prettier": "^3.4.2",
     "turbo": "^2.3.3",
-    "typescript": "5.5.4"
+    "typescript": "^5.7.2"
   },
   "engines": {
     "node": ">=18"

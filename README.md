@@ -120,5 +120,16 @@ sudo setcap cap_net_raw,cap_net_admin+ep apps/server/wol-server
 
 ---
 
+## Credits & Acknowledgments
+
+This project is an extended fork of the excellent [wol-web](https://github.com/HuakunShen/wol-web) by [Huakun Shen](https://github.com/HuakunShen). It adds multi-user support, localized error handling, and enhanced network interface management. (i need it, so i add it)
+
+Special thanks to the authors of the core libraries that make this possible:
+- [j-keck/arping](https://github.com/j-keck/arping) - For the powerful ARP ping functionality.
+- [modernc.org/sqlite](https://modernc.org/sqlite) - For providing a robust, CGO-free SQLite implementation.
+- [gorilla/mux](https://github.com/gorilla/mux) - For the high-performance HTTP router.
+
+---
+
 ## License
 MIT
