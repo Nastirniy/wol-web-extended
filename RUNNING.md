@@ -29,7 +29,7 @@ docker run -d \
   --cap-add=NET_RAW \
   --cap-add=NET_ADMIN \
   -v wol_data:/app/data \
-  wol-web:local
+  wol-web-extended:local
 ```
 
 ---

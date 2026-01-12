@@ -6,10 +6,11 @@ services:
   wol:
     # Local development: Build from current directory
     # For production/Docker Hub: Replace 'build' and 'image' with the official image
-    # e.g., image: "your-username/wol-web-extended:latest"
+    # e.g., image: "nastirniy/wol-web-extended:latest"
     build: .
     image: "wol-web-extended:local"
-    container_name: wol-web
+    #image: "nastirniy/wol-web-extended:latest"
+    container_name: wol-web-extended
     restart: unless-stopped
     # Required for WoL broadcast packets
     network_mode: host
@@ -60,10 +61,10 @@ volumes:
 # 2. Run with: docker compose -f compose.with-logs.yml up -d
 #
 # To view logs:
-# - Docker logs: docker logs -f wol-web
+# - Docker logs: docker logs -f wol-web-extended
 # - Log files: docker compose exec wol ls -la /app/logs
 # - Read logs: docker compose exec wol tail -f /app/logs/wol-server-*.log
 #
 # To access log files on host:
 # - Find volume: docker volume inspect wol_logs
-# - Copy logs out: docker cp wol-web:/app/logs ./local-logs
+# - Copy logs out: docker cp wol-web-extended:/app/logs ./local-logs

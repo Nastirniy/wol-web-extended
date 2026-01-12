@@ -1,4 +1,4 @@
-# wol-web
+# wol-web-extended
 
 Web-based Wake-on-LAN management with real-time device monitoring, ARP discovery, and per-host network interface selection.
 
@@ -18,7 +18,7 @@ Access at `http://localhost:8090`
 
 **View logs:**
 ```bash
-docker logs -f wol-web
+docker logs -f wol-web-extended
 ```
 
 ### Configuration
@@ -94,7 +94,7 @@ See [CONFIG.md](./CONFIG.md) for all options.
 ### Steps
 ```bash
 # 1. Clone and install
-git clone https://github.com/yourusername/wol-web-extended.git
+git clone https://github.com/Nastirniy/wol-web-extended.git
 cd wol-web-extended
 bun install
 

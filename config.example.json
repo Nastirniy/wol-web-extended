@@ -1,0 +1,46 @@
+{
+  "_comment": "Wake-on-LAN Web Server Configuration",
+  "_comment_docs": "See CONFIG.md for detailed documentation",
+
+  "listen_address": ":8090",
+  "_comment_listen_address": "Server bind address. Examples: ':8090' (all interfaces), '0.0.0.0:8090', '127.0.0.1:3000'",
+
+  "url_prefix": "",
+  "_comment_url_prefix": "URL prefix for reverse proxy. Use '' for root, '/wolweb' for subpath. Must start with '/' if set.",
+
+  "default_network_interface": "",
+  "_comment_default_network_interface": "Default network interface(s) for WoL/ping. Supports comma-separated list. Linux only.",
+
+  "enable_per_host_interfaces": false,
+  "_comment_enable_per_host_interfaces": "Allow hosts to specify own network interfaces (true/false). Linux only.",
+
+  "ping_timeout_seconds": 5,
+  "_comment_ping_timeout_seconds": "Ping timeout in seconds (1-60).",
+
+  "auth_expire_hours": 4,
+  "_comment_auth_expire_hours": "Session expiration time in hours.",
+
+  "use_auth": true,
+  "_comment_use_auth": "Enable user authentication (true/false).",
+
+  "readonly_mode": false,
+  "_comment_readonly_mode": "Disable host create/update/delete (true/false).",
+
+  "behind_proxy": false,
+  "_comment_behind_proxy": "Set to true when running behind HTTPS reverse proxy to enable secure cookies.",
+
+  "health_check_enabled": true,
+  "_comment_health_check_enabled": "Enable /api/health endpoint for monitoring.",
+
+  "log_level": "info",
+  "_comment_log_level": "Log level: debug, info, warning, error.",
+
+  "log_output_mode": "stdout",
+  "_comment_log_output_mode": "Log output: stdout, file, both.",
+
+  "log_dir": "./logs",
+  "_comment_log_dir": "Directory for log files when using file mode.",
+
+  "log_rotation": true,
+  "_comment_log_rotation": "Enable automatic log rotation for file output."
+}

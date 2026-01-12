@@ -1,6 +1,9 @@
 # Default to local image name for development
-# To publish: export IMAGE_NAME=yourusername/wol-web:latest
-IMAGE_NAME ?= wol-web:local
+# To use local: export IMAGE_NAME=wol-web-extended:local
+# To publish: export IMAGE_NAME=nastirniy/wol-web-extended:latest
+
+#IMAGE_NAME ?= wol-web-extended:local
+IMAGE_NAME ?= nastirniy/wol-web-extended:latest
 VERSION ?= latest
 
 .PHONY: buildx buildx-podman build-local test push help
@@ -11,7 +14,7 @@ help:
 	@echo "=============================="
 	@echo ""
 	@echo "Quick Start:"
-	@echo "  1. Set your image name: export IMAGE_NAME=yourusername/wol-web:latest"
+	@echo "  1. Set your image name: export IMAGE_NAME=nastirniy/wol-web-extended:latest"
 	@echo "  2. Build and push: make buildx"
 	@echo ""
 	@echo "Available targets:"

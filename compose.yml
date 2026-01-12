@@ -2,10 +2,11 @@ services:
   wol:
     # Local development: Build from current directory
     # For production/Docker Hub: Replace 'build' and 'image' with the official image
-    # e.g., image: "your-username/wol-web-extended:latest"
+    # e.g., image: "nastirniy/wol-web-extended:latest"
     build: .
     image: "wol-web-extended:local"
-    container_name: wol-web
+    #image: "nastirniy/wol-web-extended:latest"
+    container_name: wol-web-extended
     restart: unless-stopped
 
     # Required for WoL broadcast packets

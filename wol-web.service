@@ -8,10 +8,10 @@ Wants=network-online.target
 Type=simple
 User=wol
 Group=wol
-WorkingDirectory=/opt/wol-web
+WorkingDirectory=/opt/wol-web-extended
 
 # Binary path with configuration
-ExecStart=/opt/wol-web/wol-server -config /etc/wol-web/config.json -db /var/lib/wol-web/wol.db
+ExecStart=/opt/wol-web-extended/wol-server -config /etc/wol-web-extended/config.json -db /var/lib/wol-web-extended/wol.db
 
 # Restart policy
 Restart=on-failure
@@ -22,7 +22,7 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=true
-ReadWritePaths=/var/lib/wol-web /var/log/wol-web
+ReadWritePaths=/var/lib/wol-web-extended /var/log/wol-web-extended
 
 # Linux capabilities for ARP ping and cache flushing
 AmbientCapabilities=CAP_NET_RAW CAP_NET_ADMIN
@@ -32,7 +32,7 @@ CapabilityBoundingSet=CAP_NET_RAW CAP_NET_ADMIN
 # For systemd services, use file-based logging to prevent memory issues
 Environment="LOG_LEVEL=info"
 Environment="LOG_OUTPUT_MODE=file"
-Environment="LOG_DIR=/var/log/wol-web"
+Environment="LOG_DIR=/var/log/wol-web-extended"
 Environment="LOG_MAX_SIZE_MB=50"
 Environment="LOG_MAX_AGE_DAYS=30"
 Environment="LOG_ROTATION=true"
@@ -40,7 +40,7 @@ Environment="LOG_ROTATION=true"
 # Standard output/error (logs will go to both journald and files)
 StandardOutput=journal
 StandardError=journal
-SyslogIdentifier=wol-web
+SyslogIdentifier=wol-web-extended
 
 # Resource limits
 LimitNOFILE=65536

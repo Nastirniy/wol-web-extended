@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "wol-web",
+      "name": "wol-web-extended",
       "devDependencies": {
         "prettier": "^3.2.5",
         "turbo": "^2.3.3",

@@ -15,8 +15,7 @@ on:
 
 env:
   REGISTRY: docker.io
-  # CHANGE THIS to your Docker Hub username/image
-  IMAGE_NAME: yourusername/wol-web
+  IMAGE_NAME: nastirniy/wol-web-extended
 
 jobs:
   build:

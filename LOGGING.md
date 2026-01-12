@@ -23,7 +23,7 @@ Save logs to files with automatic rotation (recommended for systemd/bare metal).
 {
   "log_level": "info",
   "log_output_mode": "file",
-  "log_dir": "/var/log/wol-web",
+  "log_dir": "/var/log/wol-web-extended",
   "log_rotation": true
 }
 ```
@@ -44,7 +44,7 @@ LOG_OUTPUT_MODE=stdout
 ```bash
 export LOG_LEVEL=info
 export LOG_OUTPUT_MODE=file
-export LOG_DIR=/var/log/wol-web
+export LOG_DIR=/var/log/wol-web-extended
 ./wol-server
 ```
 
@@ -78,14 +78,14 @@ Use `config.json` or Environment Variables (Env vars take precedence).
 
 ### Configuration Matrix
 
-| Feature    | JSON Key           | Env Var            | Values                           |
-| ---------- | ------------------ | ------------------ | -------------------------------- |
-| **Level**  | `log_level`        | `LOG_LEVEL`        | `debug`, `info`, `warn`, `error` |
-| **Mode**   | `log_output_mode`  | `LOG_OUTPUT_MODE`  | `stdout`, `file`, `both`         |
-| **Path**   | `log_dir`          | `LOG_DIR`          | e.g., `/var/log/wol-web`         |
-| **Rotate** | `log_rotation`     | `LOG_ROTATION`     | `true`, `false`                  |
-| **Size**   | `log_max_size_mb`  | `LOG_MAX_SIZE_MB`  | e.g., `50`                       |
-| **Age**    | `log_max_age_days` | `LOG_MAX_AGE_DAYS` | e.g., `30`                       |
+| Feature    | JSON Key           | Env Var            | Values                            |
+| ---------- | ------------------ | ------------------ | ----------------------------------|
+| **Level**  | `log_level`        | `LOG_LEVEL`        | `debug`, `info`, `warn`, `error`  |
+| **Mode**   | `log_output_mode`  | `LOG_OUTPUT_MODE`  | `stdout`, `file`, `both`          |
+| **Path**   | `log_dir`          | `LOG_DIR`          | e.g., `/var/log/wol-web-extended` |
+| **Rotate** | `log_rotation`     | `LOG_ROTATION`     | `true`, `false`                   |
+| **Size**   | `log_max_size_mb`  | `LOG_MAX_SIZE_MB`  | e.g., `50`                        |
+| **Age**    | `log_max_age_days` | `LOG_MAX_AGE_DAYS` | e.g., `30`                        |
 
 ## Log Levels
 
